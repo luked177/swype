@@ -1,6 +1,6 @@
 "use client";
 
-import { addToReadingList } from "@/app/actions/addToReadingList";
+import { addToReadingList } from "@/actions/addToReadingList";
 import { Article } from "@/types/article";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
