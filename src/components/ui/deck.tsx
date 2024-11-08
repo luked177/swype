@@ -15,6 +15,7 @@ export const Deck = ({
 	}[];
 }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
+	if (items.length === 0) return null;
 	const currItem = items[currentIndex];
 	return (
 		<div className="relative w-full h-full max-w-md mx-auto overflow-hidden">
@@ -24,7 +25,7 @@ export const Deck = ({
 					drag="x"
 					dragConstraints={{ left: 0, right: 0 }}
 					onDragEnd={(e, info) => {
-						if (info.offset.x < -100) {
+						if (info.offset.x > -100) {
 							addToReadingList(currItem.data);
 						}
 						setCurrentIndex((prevIndex) => (prevIndex < items.length - 1 ? prevIndex + 1 : 0));

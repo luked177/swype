@@ -18,7 +18,7 @@ export async function createTables() {
 		await sql`
             CREATE TABLE IF NOT EXISTS ReadingList (
                 reading_list_id SERIAL PRIMARY KEY,
-                user_id INT NOT NULL,
+                user_id VARCHAR(255) NOT NULL,
                 article_id INT NOT NULL,
                 added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (article_id) REFERENCES Articles(article_id)
