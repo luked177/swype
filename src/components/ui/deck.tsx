@@ -19,7 +19,7 @@ export const Deck = ({
 	if (items.length === 0) return null;
 	const currItem = items[currentIndex];
 	return (
-		<div className="relative w-full h-full max-w-md mx-auto overflow-hidden">
+		<div className="relative w-full h-full mx-auto overflow-hidden">
 			<AnimatePresence initial={false}>
 				<motion.div
 					key={currentIndex}

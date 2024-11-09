@@ -1,14 +1,15 @@
 "use client";
+
 import { Book, Home, Settings } from "lucide-react";
-import { Button } from "./button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { Button } from "../ui/button";
 
 export const NavBar = () => {
 	const path = usePathname();
 	return (
-		<nav className="border-t bg-background content-end">
+		<nav className="sticky bottom-0 border-t bg-background">
 			<div className="mx-auto flex max-w-md justify-around">
 				<Link className={clsx("py-2", path === "/readinglist" ? "text-primary" : "text-muted-foreground")} href={"/readinglist"}>
 					<Button variant="ghost" className="flex-1 flex-col items-center justify-center" tabIndex={-1}>

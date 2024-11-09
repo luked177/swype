@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Header } from "@/components/ui/header";
-import { NavBar } from "@/components/ui/navbar";
+import { Header } from "@/components/blocks/header";
+import { NavBar } from "@/components/blocks/navbar";
 import { ClerkProvider, SignedIn } from "@clerk/nextjs";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -30,11 +31,13 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang="en">
 				<body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full h-dvh max-h-dvh grid grid-rows-layout overflow-auto`}>
-					<Header />
-					{children}
-					<SignedIn>
-						<NavBar />
-					</SignedIn>
+					<NuqsAdapter>
+						<Header />
+						{children}
+						<SignedIn>
+							<NavBar />
+						</SignedIn>
+					</NuqsAdapter>
 				</body>
 			</html>
 		</ClerkProvider>

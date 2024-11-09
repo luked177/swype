@@ -1,5 +1,5 @@
 import { addToReadingList } from "@/actions/addToReadingList";
-import { ArticleCard } from "@/components/ui/articleCard";
+import { ArticleCard } from "@/components/blocks/articleCard";
 import { Deck } from "@/components/ui/deck";
 import { Article, Articles } from "@/types/article";
 import { sql } from "@vercel/postgres";
