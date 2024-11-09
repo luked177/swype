@@ -1,3 +1,4 @@
+import { addToReadingList } from "@/actions/addToReadingList";
 import { ArticleCard } from "@/components/ui/articleCard";
 import { Deck } from "@/components/ui/deck";
 import { Article, Articles } from "@/types/article";
@@ -13,6 +14,7 @@ export const Dashboard = async () => {
 					content: <ArticleCard article={a} />,
 					data: a,
 				}))}
+				onRightSwipe={addToReadingList}
 			/>
 		</div>
 	);
