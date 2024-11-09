@@ -1,4 +1,5 @@
-import { UserButton } from "@clerk/nextjs";
+import { SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Button } from "../ui/button";
 
 export const Header = () => {
 	return (
@@ -8,6 +9,11 @@ export const Header = () => {
 				<span className="text-lg font-semibold">Swype</span>
 			</div>
 			<UserButton />
+			<SignedOut>
+				<SignInButton>
+					<Button>Log in</Button>
+				</SignInButton>
+			</SignedOut>
 		</header>
 	);
 };
