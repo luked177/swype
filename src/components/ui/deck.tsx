@@ -7,13 +7,15 @@ import React, { useState } from "react";
 export const Deck = ({
 	items,
 	onRightSwipe,
+	onRead,
 }: {
 	items: {
-		id: number;
+		id: number | string;
 		content: React.ReactNode;
 		data: Article;
 	}[];
 	onRightSwipe: (article: Article) => void;
+	onRead: (article: Article) => void;
 }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	if (items.length === 0) return null;
@@ -30,6 +32,7 @@ export const Deck = ({
 							onRightSwipe(currItem.data);
 						}
 						setCurrentIndex((prevIndex) => (prevIndex < items.length - 1 ? prevIndex + 1 : 0));
+						onRead(currItem.data);
 					}}
 					className="absolute w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
 				>

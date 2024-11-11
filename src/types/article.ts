@@ -3,7 +3,8 @@ export type Article = {
 	description: string;
 	link: string;
 	image_link: string;
-	article_id: number;
+	article_id: string;
+	published_at: string;
 };
 
 export type Articles = Article[]
