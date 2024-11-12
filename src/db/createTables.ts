@@ -50,6 +50,21 @@ export async function createTables() {
             ALTER TABLE Articles ADD COLUMN feed_id VARCHAR(255),
             ADD FOREIGN KEY (feed_id) REFERENCES RSSFeeds(feed_id);`;
 
+            await sql`
+                CREATE TABLE UserPreferences (
+                    user_id VARCHAR(255) NOT NULL,
+                    sports BOOLEAN NOT NULL DEFAULT FALSE,
+                    politics BOOLEAN NOT NULL DEFAULT FALSE,
+                    uk BOOLEAN NOT NULL DEFAULT FALSE,
+                    technology BOOLEAN NOT NULL DEFAULT FALSE,
+                    science BOOLEAN NOT NULL DEFAULT FALSE,
+                    entertainment BOOLEAN NOT NULL DEFAULT FALSE,
+                    business BOOLEAN NOT NULL DEFAULT FALSE,
+                    health BOOLEAN NOT NULL DEFAULT FALSE,
+                    PRIMARY KEY (user_id)
+                );
+            `;
+
 		console.log("Tables created successfully");
 	} catch (err) {
 		console.error("Error creating tables:", err);

@@ -1,53 +1,18 @@
-import { addRSSFeed } from "@/actions/addRSSFeed";
-import { AddRSSFeed } from "@/components/blocks/addRSSFeed";
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { RSSFeed } from "@/types/rssfeed";
+import { updateUserPreferences } from "@/actions/updateUserPreferences";
+import UserPreferences from "@/components/blocks/userPreferences";
+import { UserPrefs } from "@/types/userPrefs";
+import { auth } from "@clerk/nextjs/server";
 import { sql } from "@vercel/postgres";
-import { Rss, Trash2 } from "lucide-react";
 
 export default async function Page() {
-	const { rows: feeds }: { rows: RSSFeed[] } = await sql`SELECT * FROM RSSFeeds`;
+	const { userId } = await auth();
+	const { rows: userPrefsResult }: { rows: UserPrefs[] } = await sql`SELECT sports, politics, uk, technology, science, entertainment, business, health FROM UserPreferences WHERE user_id = ${userId}`;
+	const userPrefs = userPrefsResult[0];
+
 	return (
 		<div className="p-4">
-			<div className="flex justify-between">
-				<h1 className="text-3xl font-bold mb-6">RSS Feeds</h1>
-				<AddRSSFeed addRssFeedAction={addRSSFeed} />
-			</div>
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead>Title</TableHead>
-						<TableHead>URL</TableHead>
-						<TableHead>Actions</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{feeds.map((feed) => (
-						<TableRow key={feed.feed_id}>
-							<TableCell className="font-medium">
-								<div className="flex items-center space-x-2">
-									<Rss className="h-4 w-4" />
-									<span>{feed.feed_name}</span>
-								</div>
-							</TableCell>
-							<TableCell>
-								<a href={feed.feed_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-									{feed.feed_url}
-								</a>
-							</TableCell>
-							<TableCell>
-								<form>
-									<Button type="submit" variant="ghost" size="sm" className="text-red-500 hover:text-red-700">
-										<Trash2 className="h-4 w-4" />
-										<span className="sr-only">Delete {feed.feed_name}</span>
-									</Button>
-								</form>
-							</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
+			<h1 className="text-3xl font-bold mb-6">Preferences</h1>
+			<UserPreferences userPrefs={userPrefs} updateUserPrefs={updateUserPreferences} />
 		</div>
 	);
 }

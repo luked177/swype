@@ -6,6 +6,7 @@ import { NavBar } from "@/components/blocks/navbar";
 import { ClerkProvider, SignedIn } from "@clerk/nextjs";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "@/components/ui/toaster";
+import { currentUser } from "@clerk/nextjs/server";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -23,11 +24,13 @@ export const metadata: Metadata = {
 	description: "Easy news reading lists",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const user = await currentUser();
+	const isOwner = !!user?.privateMetadata?.isOwner;
 	return (
 		<ClerkProvider>
 			<html lang="en">
@@ -36,7 +39,7 @@ export default function RootLayout({
 						<Header />
 						{children}
 						<SignedIn>
-							<NavBar />
+							<NavBar showRssFeeds={isOwner} />
 						</SignedIn>
 					</NuqsAdapter>
 					<Toaster />
