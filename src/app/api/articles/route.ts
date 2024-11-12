@@ -1,5 +1,6 @@
 import { seedArticles } from "@/db/seedArticles";
 
+export const dynamic = "force-dynamic";
 export async function GET() {
 	try {
 		await seedArticles();
