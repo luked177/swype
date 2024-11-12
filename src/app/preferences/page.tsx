@@ -1,3 +1,4 @@
+import { addRSSFeed } from "@/actions/addRSSFeed";
 import { AddRSSFeed } from "@/components/blocks/addRSSFeed";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -11,7 +12,7 @@ export default async function Page() {
 		<div className="p-4">
 			<div className="flex justify-between">
 				<h1 className="text-3xl font-bold mb-6">RSS Feeds</h1>
-				<AddRSSFeed />
+				<AddRSSFeed addRssFeedAction={addRSSFeed} />
 			</div>
 			<Table>
 				<TableHeader>
@@ -23,23 +24,23 @@ export default async function Page() {
 				</TableHeader>
 				<TableBody>
 					{feeds.map((feed) => (
-						<TableRow key={feed.id}>
+						<TableRow key={feed.feed_id}>
 							<TableCell className="font-medium">
 								<div className="flex items-center space-x-2">
 									<Rss className="h-4 w-4" />
-									<span>{feed.title}</span>
+									<span>{feed.feed_name}</span>
 								</div>
 							</TableCell>
 							<TableCell>
-								<a href={feed.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-									{feed.url}
+								<a href={feed.feed_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+									{feed.feed_url}
 								</a>
 							</TableCell>
 							<TableCell>
 								<form>
 									<Button type="submit" variant="ghost" size="sm" className="text-red-500 hover:text-red-700">
 										<Trash2 className="h-4 w-4" />
-										<span className="sr-only">Delete {feed.title}</span>
+										<span className="sr-only">Delete {feed.feed_name}</span>
 									</Button>
 								</form>
 							</TableCell>

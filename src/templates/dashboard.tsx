@@ -22,7 +22,7 @@ export const Dashboard = async () => {
 					onRead={markAsSeen}
 				/>
 			) : (
-				<p>You`&apos;`re all caught up!</p>
+				<p>You&apos;re all caught up!</p>
 			)}
 		</div>
 	);

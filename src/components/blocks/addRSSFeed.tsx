@@ -9,15 +9,16 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
+import { addRSSFeed } from "@/actions/addRSSFeed";
 
 const addRssFeedFormSchema = z.object({
 	name: z.string().min(1, "Name is required"),
 	url: z.string().url("Invalid URL"),
 });
 
-type AddRssFeedFormData = z.infer<typeof addRssFeedFormSchema>;
+export type AddRssFeedFormData = z.infer<typeof addRssFeedFormSchema>;
 
-export const AddRSSFeed = () => {
+export const AddRSSFeed = ({ addRssFeedAction }: { addRssFeedAction: (data: AddRssFeedFormData) => ReturnType<typeof addRSSFeed> }) => {
 	const [open, setOpen] = useState(false);
 	const { toast } = useToast();
 
@@ -29,18 +30,37 @@ export const AddRSSFeed = () => {
 		},
 	});
 
-	const onSubmit = (data: AddRssFeedFormData) => {
-		console.log("Hello");
-		console.log("Form submitted:", data);
-		toast({
-			title: "RSS Feed Added",
-			description: `Added ${data.name} with URL ${data.url}`,
-		});
-		form.reset();
-		setOpen(false);
+	const onSubmit = async (data: AddRssFeedFormData) => {
+		const res = await addRssFeedAction(data);
+		switch (res) {
+			case "URL already exists":
+				toast({
+					title: "URL already exists",
+					description: `The URL ${data.url} is already in use`,
+				});
+				break;
+			case "Name already exists":
+				toast({
+					title: "Name already exists",
+					description: `The name ${data.name} is already in use`,
+				});
+				break;
+			case "Failed to add RSS Feed":
+				toast({
+					title: "Failed to add RSS Feed",
+					description: `Could not add ${data.name} with URL ${data.url}`,
+				});
+				break;
+			case "Succesfully added":
+				toast({
+					title: "RSS Feed Added",
+					description: `Added ${data.name} with URL ${data.url}`,
+				});
+				form.reset();
+				setOpen(false);
+				break;
+		}
 	};
-
-	console.log(form.formState.errors);
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -80,9 +100,7 @@ export const AddRSSFeed = () => {
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" className="">
-							Add Feed
-						</Button>
+						<Button type="submit">Add Feed</Button>
 					</form>
 				</Form>
 			</DialogContent>

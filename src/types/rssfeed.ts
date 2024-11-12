@@ -1,5 +1,5 @@
 export type RSSFeed = {
-	title: string;
-	id: string;
-	url: string;
+	feed_id: string;
+	feed_url: string;
+	feed_name: string;
 };
