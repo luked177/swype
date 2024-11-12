@@ -1,4 +1,5 @@
 import { addRSSFeed } from "@/actions/addRSSFeed";
+import { deleteRssFeed } from "@/actions/deleteRssFeed";
 import { AddRSSFeed } from "@/components/blocks/addRSSFeed";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -9,7 +10,7 @@ import { Rss, Trash2 } from "lucide-react";
 export default async function Page() {
 	const { rows: feeds }: { rows: RSSFeed[] } = await sql`SELECT * FROM RSSFeeds`;
 	return (
-		<div className="p-4">
+		<div className="p-4 overflow-hidden">
 			<div className="flex justify-between">
 				<h1 className="text-3xl font-bold mb-6">RSS Feeds</h1>
 				<AddRSSFeed addRssFeedAction={addRSSFeed} />
@@ -37,7 +38,9 @@ export default async function Page() {
 								</a>
 							</TableCell>
 							<TableCell>
-								<form>
+								<form action={deleteRssFeed}>
+									<input type="hidden" name="id" value={feed.feed_id} />
+									<input type="hidden" name="name" value={feed.feed_name} />
 									<Button type="submit" variant="ghost" size="sm" className="text-red-500 hover:text-red-700">
 										<Trash2 className="h-4 w-4" />
 										<span className="sr-only">Delete {feed.feed_name}</span>
