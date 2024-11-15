@@ -3,7 +3,18 @@ import { sql } from "@vercel/postgres";
 
 export async function createTables() {
 	try {
-		await sql`
+
+        		await sql`
+            CREATE TABLE IF NOT EXISTS RSSFeeds (
+                feed_id VARCHAR(255) PRIMARY KEY,
+                feed_url VARCHAR(255) NOT NULL,
+                feed_name VARCHAR(255),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `;
+
+						await sql`
             CREATE TABLE IF NOT EXISTS Articles (
                 article_id VARCHAR(255) PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
@@ -11,8 +22,11 @@ export async function createTables() {
                 link VARCHAR(255) NOT NULL,
                 image_link VARCHAR(255) NOT NULL,
                 published_at TIMESTAMP NOT NULL,
+                keyword VARCHAR(255) NOT NULL,
+                feed_id VARCHAR(255) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (feed_id) REFERENCES RSSFeeds(feed_id)
             );
         `;
 
@@ -37,20 +51,6 @@ export async function createTables() {
         `;
 
 		await sql`
-            CREATE TABLE IF NOT EXISTS RSSFeeds (
-                feed_id VARCHAR(255) PRIMARY KEY,
-                feed_url VARCHAR(255) NOT NULL,
-                feed_name VARCHAR(255),
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-        `;
-
-		await sql`
-            ALTER TABLE Articles ADD COLUMN feed_id VARCHAR(255),
-            ADD FOREIGN KEY (feed_id) REFERENCES RSSFeeds(feed_id);`;
-
-            await sql`
                 CREATE TABLE UserPreferences (
                     user_id VARCHAR(255) NOT NULL,
                     sports BOOLEAN NOT NULL DEFAULT FALSE,

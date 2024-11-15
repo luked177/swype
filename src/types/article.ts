@@ -5,6 +5,7 @@ export type Article = {
 	image_link: string;
 	article_id: string;
 	published_at: string;
+	feed_id: string;
 };
 
 export type Articles = Article[]
